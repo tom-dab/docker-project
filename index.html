@@ -1,11 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>Météo App v1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .version {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .weather-display {
+            display: none;
+            text-align: center;
+        }
+
+        .weather-display.show {
+            display: block;
+        }
+
+        .city-name {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .temperature {
+            font-size: 4em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .weather-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .info-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <h1>Weather App</h1>
+    <div class="container">
+        <h1>🌤️ Météo App</h1>
+        <div class="version">Version 1.0</div>
+
+        <div class="search-box">
+            <input 
+                type="text" 
+                id="cityInput" 
+                placeholder="Entrez une ville (ex: Paris, London)"
+                value="Paris"
+            >
+            <button onclick="getWeather()">Rechercher</button>
+        </div>
+
+        <div class="loading" id="loading">⏳ Chargement...</div>
+        <div class="error" id="error"></div>
+
+        <div class="weather-display" id="weatherDisplay">
+            <div class="city-name" id="cityName"></div>
+            <div class="temperature" id="temperature"></div>
+            
+            <div class="weather-info">
+                <div class="info-card">
+                    <div class="info-label">Humidité</div>
+                    <div class="info-value" id="humidity"></div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Vent</div>
+                    <div class="info-value" id="wind"></div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Pression</div>
+                    <div class="info-value" id="pressure"></div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Précipitations</div>
+                    <div class="info-value" id="precipitation"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
 </body>
 </html>
